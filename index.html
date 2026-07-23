@@ -1,208 +1,208 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Meu Pet</title>
-
-
-<style>
-
 body{
 
-margin:0;
-font-family:Arial;
-background:linear-gradient(#8de0ff,#ffffff);
-text-align:center;
-overflow:hidden;
+    margin:0;
+    font-family:Arial;
+    background:linear-gradient(#8de0ff,#ffffff);
+    text-align:center;
+    overflow:hidden;
 
 }
 
 
 h1{
 
-margin-top:20px;
+    margin-top:20px;
 
 }
 
 
 #game{
 
-margin-top:40px;
+    margin-top:40px;
 
 }
 
 
+/* Caixa e ovo */
+
 #caixa,#ovo{
 
-font-size:120px;
-cursor:pointer;
+    font-size:120px;
+    cursor:pointer;
 
 }
 
 
 #caixa{
 
-animation:balanco 1s infinite;
+    animation:balanco 1s infinite;
 
 }
 
 
 @keyframes balanco{
 
-50%{
+    50%{
 
-transform:rotate(5deg);
+        transform:rotate(5deg);
+
+    }
 
 }
-
-}
-
 
 
 #ovo{
 
-display:none;
+    display:none;
 
 }
 
 
+
+/* Cachorro */
 
 #cachorro{
 
-display:none;
-margin:auto;
-width:150px;
-height:120px;
-background:#c98b45;
-border-radius:70px 70px 40px 40px;
-position:relative;
+    display:none;
+    margin:auto;
+    width:150px;
+    height:120px;
+    background:#c98b45;
+    border-radius:70px 70px 40px 40px;
+    position:relative;
 
 }
-
 
 
 #cachorro:before,
 #cachorro:after{
 
-content:"";
-position:absolute;
-top:-20px;
-width:45px;
-height:60px;
-background:#8b5a2b;
-border-radius:50%;
+    content:"";
+    position:absolute;
+    top:-20px;
+    width:45px;
+    height:60px;
+    background:#8b5a2b;
+    border-radius:50%;
 
 }
 
 
 #cachorro:before{
 
-left:10px;
+    left:10px;
 
 }
 
 
 #cachorro:after{
 
-right:10px;
+    right:10px;
 
 }
 
 
-
 .olho{
 
-width:15px;
-height:15px;
-background:black;
-border-radius:50%;
-position:absolute;
-top:45px;
+    width:15px;
+    height:15px;
+    background:black;
+    border-radius:50%;
+    position:absolute;
+    top:45px;
 
 }
 
 
 .esq{
 
-left:35px;
+    left:35px;
 
 }
 
 
 .dir{
 
-right:35px;
+    right:35px;
 
 }
-
 
 
 #boca{
 
-position:absolute;
-bottom:25px;
-left:65px;
+    position:absolute;
+    bottom:25px;
+    left:65px;
 
 }
 
 
+
+/* Interface */
 
 #gui{
 
-display:none;
+    display:none;
 
 }
-
 
 
 button{
 
-padding:12px;
-margin:5px;
-border:none;
-border-radius:10px;
-font-size:17px;
-cursor:pointer;
+    padding:12px;
+    margin:5px;
+    border:none;
+    border-radius:10px;
+    font-size:17px;
+    cursor:pointer;
 
 }
 
 
+
+/* Mensagem do Byte */
 
 #mensagem{
 
-font-size:20px;
-font-weight:bold;
+    position:relative;
+    top:-30px;
+
+    width:80%;
+    margin:auto;
+
+    padding:10px;
+
+    font-size:20px;
+    font-weight:bold;
+
+    border:3px solid white;
+    border-radius:15px;
+
+    background:rgba(0,0,0,0.15);
 
 }
 
 
+
+/* Câmera */
 
 #cameraArea video{
 
-width:300px;
-border-radius:15px;
+    width:300px;
+    border-radius:15px;
 
 }
-
 
 
 #foto{
 
-width:300px;
-border-radius:15px;
+    width:300px;
+    border-radius:15px;
 
 }
 
-
-</style>
-
-</head>
-
 <body>
+
 
 <h1>🐾 Meu Pet</h1>
 
@@ -211,7 +211,9 @@ border-radius:15px;
 
 
 <div id="mensagem">
+
 Uma caixa misteriosa apareceu...
+
 </div>
 
 
@@ -260,13 +262,13 @@ Uma caixa misteriosa apareceu...
 <h2>🐶 Byte</h2>
 
 
-❤️ Felicidade: 100%
+❤️ Felicidade: 50%
 
 
 <br>
 
 
-🍖 Fome: 100%
+🍖 Fome: 6%
 
 
 <br><br>
@@ -296,6 +298,7 @@ Uma caixa misteriosa apareceu...
 </button>
 
 
+
 </div>
 
 
@@ -309,6 +312,7 @@ Uma caixa misteriosa apareceu...
 
 
 </div>
+
 
 
 
@@ -341,12 +345,25 @@ z-index:10;
 <script>
 
 let toques = 0;
+
 let selfies = 0;
 
-let felicidade = 100;
-let fome = 100;
+let terrorAtivado = false;
 
-let diminuirFelicidade = true;
+
+let felicidade = 50;
+
+let fome = 6;
+
+
+
+let mensagem = document.getElementById("mensagem");
+let caixa = document.getElementById("caixa");
+let ovo = document.getElementById("ovo");
+let cachorro = document.getElementById("cachorro");
+let gui = document.getElementById("gui");
+
+
 
 
 
@@ -358,25 +375,34 @@ gui.innerHTML = `
 
 ❤️ Felicidade: ${felicidade}%
 
+
 <br>
 
+
 🍖 Fome: ${fome}%
+
 
 <br><br>
 
 
 <button onclick="alimentar()">
+
 🍎 Alimentar
+
 </button>
 
 
 <button onclick="brincar()">
+
 🎾 Brincar
+
 </button>
 
 
 <button onclick="abrirCamera()">
+
 📷 Câmera
+
 </button>
 
 `;
@@ -387,6 +413,7 @@ gui.innerHTML = `
 
 
 function abrirCaixa(){
+
 
 toques++;
 
@@ -399,12 +426,14 @@ mensagem.innerHTML =
 }
 
 
+
 if(toques == 2){
 
 mensagem.innerHTML =
 "Algo está tentando sair... 😨";
 
 }
+
 
 
 if(toques == 3){
@@ -418,14 +447,18 @@ mensagem.innerHTML =
 
 }
 
+
 }
+
 
 
 
 
 function abrirOvo(){
 
+
 ovo.style.display="none";
+
 
 cachorro.style.display="block";
 
@@ -437,9 +470,12 @@ mensagem.innerHTML =
 
 setTimeout(()=>{
 
+
 gui.style.display="block";
 
+
 atualizar();
+
 
 },2000);
 
@@ -450,7 +486,10 @@ atualizar();
 
 
 
+
+
 function alimentar(){
+
 
 fome += 10;
 
@@ -462,11 +501,23 @@ fome = 100;
 }
 
 
+
+if(fome == 100){
+
+mensagem.innerHTML =
+"🍖 Fome cheia! Byte está satisfeito.";
+
+}else{
+
 mensagem.innerHTML =
 "Byte comeu 🍎";
 
+}
+
+
 
 atualizar();
+
 
 }
 
@@ -474,7 +525,10 @@ atualizar();
 
 
 
+
+
 function brincar(){
+
 
 felicidade += 10;
 
@@ -486,11 +540,23 @@ felicidade = 100;
 }
 
 
+
+if(felicidade == 100){
+
+mensagem.innerHTML =
+"❤️ Felicidade cheia! Byte está muito feliz.";
+
+}else{
+
 mensagem.innerHTML =
 "Byte está brincando 🎾";
 
+}
+
+
 
 atualizar();
+
 
 }
 
@@ -499,7 +565,14 @@ atualizar();
 
 
 
-// A cada minuto perde uma coisa alternando
+
+
+
+// A cada 1 minuto alterna entre fome e felicidade
+
+let diminuirFelicidade = true;
+
+
 
 setInterval(()=>{
 
@@ -534,7 +607,9 @@ fome = 0;
 
 
 
-diminuirFelicidade = !diminuirFelicidade;
+diminuirFelicidade =
+!diminuirFelicidade;
+
 
 
 atualizar();
@@ -549,11 +624,12 @@ atualizar();
 
 
 
+
+
 async function abrirCamera(){
 
 
 selfies++;
-
 
 
 try{
@@ -568,11 +644,12 @@ video:true
 
 
 
-let video =
+let camera =
 document.getElementById("camera");
 
 
-video.srcObject = stream;
+
+camera.srcObject = stream;
 
 
 document.getElementById("cameraArea").style.display="block";
@@ -580,16 +657,20 @@ document.getElementById("cameraArea").style.display="block";
 
 
 
-setTimeout(()=>{
 
-
-flash.style.display="block";
-
+// flash
 
 setTimeout(()=>{
 
 
-flash.style.display="none";
+document.getElementById("flash").style.display="block";
+
+
+
+setTimeout(()=>{
+
+
+document.getElementById("flash").style.display="none";
 
 
 },300);
@@ -602,17 +683,21 @@ flash.style.display="none";
 
 
 
+
+
 setTimeout(()=>{
 
 
-cameraArea.style.display="none";
+document.getElementById("cameraArea").style.display="none";
 
 
 stream.getTracks()[0].stop();
 
 
+
 mensagem.innerHTML =
-"Foto tirada! 📸";
+"📸 Foto tirada!";
+
 
 
 },2000);
@@ -622,10 +707,15 @@ mensagem.innerHTML =
 
 
 
-// Terror depois da segunda foto
 
 
-if(selfies >= 2){
+
+// evento secreto uma vez
+
+if(selfies >= 3 && terrorAtivado == false){
+
+
+terrorAtivado = true;
 
 
 
@@ -635,16 +725,12 @@ setTimeout(()=>{
 document.body.style.background="black";
 
 
-cameraArea.style.display="block";
-
-
 mensagem.innerHTML =
-"👁️ Eu sei onde você está...";
+"👁️ Algo estranho aconteceu...";
 
 
 
-},4000);
-
+},20000);
 
 
 
@@ -653,18 +739,19 @@ mensagem.innerHTML =
 setTimeout(()=>{
 
 
-cameraArea.style.display="none";
-
-
-document.body.style.background =
+document.body.style.background=
 "linear-gradient(#8de0ff,#ffffff)";
 
 
 mensagem.innerHTML =
-"😂 Brincadeira! Eu não sei nada.";
+"Byte: Você é bonito(a)! Onde você mora?";
 
 
-},8000);
+mostrarPerguntas();
+
+
+
+},25000);
 
 
 
@@ -681,12 +768,158 @@ mensagem.innerHTML =
 }
 
 
+
 }
 
 
 
-</script>
 
 
-</body>
-</html>
+
+
+
+
+
+function mostrarPerguntas(){
+
+
+gui.innerHTML += `
+
+
+<br><br>
+
+
+<button onclick="respostaNao()">
+
+Não me sinto seguro pra falar
+
+</button>
+
+
+
+<button onclick="respostaSim()">
+
+Moro em #)$#(@;{¢×©[
+
+</button>
+
+
+
+<button onclick="respostaOutro()">
+
+Eu moro em ${gerarCensura()}
+
+</button>
+
+
+
+`;
+
+}
+
+
+
+
+
+function gerarCensura(){
+
+
+let simbolos =
+"#)$(@;{¢×©[]÷£€";
+
+
+let texto="";
+
+
+for(let i=0;i<10;i++){
+
+
+texto += simbolos[Math.floor(Math.random()*simbolos.length)];
+
+
+}
+
+
+return texto;
+
+
+}
+
+
+
+
+
+
+
+function respostaSim(){
+
+
+mensagem.innerHTML =
+"Pet: Hmm interessante mas não vou fazer nada, sou inofensivo...";
+
+
+
+setTimeout(()=>{
+
+
+mensagem.innerHTML =
+"Pet: Está nublado ☁️";
+
+
+},4000);
+
+
+}
+
+
+
+
+
+
+function respostaNao(){
+
+
+mensagem.innerHTML =
+"Pet: Tudo bem...";
+
+
+setTimeout(()=>{
+
+
+mensagem.innerHTML =
+"Pet: Está ensolarado ☀️";
+
+
+},3000);
+
+
+}
+
+
+
+
+
+
+
+function respostaOutro(){
+
+
+mensagem.innerHTML =
+"Pet: Entendi...";
+
+
+setTimeout(()=>{
+
+
+mensagem.innerHTML =
+"Pet: Está chovendo 🌧️";
+
+
+},4000);
+
+
+}
+
+
+
+   </script>
