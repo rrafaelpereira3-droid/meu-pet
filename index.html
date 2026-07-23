@@ -1,120 +1,202 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Meu Pet</title>
 
+
 <style>
 
 body{
-    margin:0;
-    font-family:Arial;
-    background:linear-gradient(#8de0ff,#ffffff);
-    text-align:center;
-    overflow:hidden;
+
+margin:0;
+font-family:Arial;
+background:linear-gradient(#8de0ff,#ffffff);
+text-align:center;
+overflow:hidden;
+
 }
+
 
 h1{
-    margin-top:20px;
+
+margin-top:20px;
+
 }
+
 
 #game{
-    margin-top:40px;
+
+margin-top:40px;
+
 }
+
 
 #caixa,#ovo{
-    font-size:120px;
-    cursor:pointer;
+
+font-size:120px;
+cursor:pointer;
+
 }
+
 
 #caixa{
-    animation:balanco 1s infinite;
+
+animation:balanco 1s infinite;
+
 }
+
 
 @keyframes balanco{
-    50%{
-        transform:rotate(5deg);
-    }
+
+50%{
+
+transform:rotate(5deg);
+
 }
+
+}
+
+
 
 #ovo{
-    display:none;
+
+display:none;
+
 }
 
+
+
 #cachorro{
-    display:none;
-    margin:auto;
-    width:150px;
-    height:120px;
-    background:#c98b45;
-    border-radius:70px 70px 40px 40px;
-    position:relative;
+
+display:none;
+margin:auto;
+width:150px;
+height:120px;
+background:#c98b45;
+border-radius:70px 70px 40px 40px;
+position:relative;
+
 }
+
+
 
 #cachorro:before,
 #cachorro:after{
-    content:"";
-    position:absolute;
-    top:-20px;
-    width:45px;
-    height:60px;
-    background:#8b5a2b;
-    border-radius:50%;
+
+content:"";
+position:absolute;
+top:-20px;
+width:45px;
+height:60px;
+background:#8b5a2b;
+border-radius:50%;
+
 }
+
 
 #cachorro:before{
-    left:10px;
+
+left:10px;
+
 }
+
 
 #cachorro:after{
-    right:10px;
+
+right:10px;
+
 }
+
+
 
 .olho{
-    width:15px;
-    height:15px;
-    background:black;
-    border-radius:50%;
-    position:absolute;
-    top:45px;
+
+width:15px;
+height:15px;
+background:black;
+border-radius:50%;
+position:absolute;
+top:45px;
+
 }
+
 
 .esq{
-    left:35px;
+
+left:35px;
+
 }
+
 
 .dir{
-    right:35px;
+
+right:35px;
+
 }
+
+
 
 #boca{
-    position:absolute;
-    bottom:25px;
-    left:65px;
+
+position:absolute;
+bottom:25px;
+left:65px;
+
 }
+
+
 
 #gui{
-    display:none;
+
+display:none;
+
 }
+
+
 
 button{
-    padding:12px;
-    margin:5px;
-    border-radius:10px;
-    border:0;
-    font-size:17px;
+
+padding:12px;
+margin:5px;
+border:none;
+border-radius:10px;
+font-size:17px;
+cursor:pointer;
+
 }
+
+
 
 #mensagem{
-    font-size:20px;
-    font-weight:bold;
+
+font-size:20px;
+font-weight:bold;
+
 }
 
-video{
-    margin-top:20px;
+
+
+#cameraArea video{
+
+width:300px;
+border-radius:15px;
+
 }
+
+
+
+#foto{
+
+width:300px;
+border-radius:15px;
+
+}
+
 
 </style>
 
@@ -124,76 +206,484 @@ video{
 
 <h1>🐾 Meu Pet</h1>
 
+
 <div id="game">
+
 
 <div id="mensagem">
 Uma caixa misteriosa apareceu...
 </div>
 
+
+
 <div id="caixa" onclick="abrirCaixa()">
+
 📦
+
 </div>
+
 
 
 <div id="ovo" onclick="abrirOvo()">
+
 🥚
+
 </div>
+
+
 
 
 <div id="cachorro">
 
+
 <div class="olho esq"></div>
+
 <div class="olho dir"></div>
 
+
 <div id="boca">
+
 👅
-</div>
 
 </div>
+
+
+</div>
+
+
+
 
 
 <div id="gui">
 
+
 <h2>🐶 Byte</h2>
+
 
 ❤️ Felicidade: 100%
 
+
 <br>
 
+
 🍖 Fome: 100%
+
 
 <br><br>
 
 
-<button>
+
+<button onclick="alimentar()">
+
 🍎 Alimentar
+
 </button>
 
-<button>
+
+
+<button onclick="brincar()">
+
 🎾 Brincar
+
 </button>
+
+
 
 <button onclick="abrirCamera()">
+
 📷 Câmera
+
 </button>
 
 
 </div>
 
-<button onclick="abrirCamera()">
-📷 Câmera
-</button>
+
+
+
+
+<div id="cameraArea" style="display:none;">
+
+
+<video id="camera" autoplay></video>
+
 
 </div>
 
+
+
+
+<div id="flash"
+
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+z-index:10;
+">
+
 </div>
 
 
-<!-- AQUI ENTRA A PARTE 2 -->
+
+
+
+<img id="foto" style="display:none;">
+
+
+
+</div>
 
 <script>
 
-(código da Parte 2)
+let toques = 0;
+let selfies = 0;
+
+let felicidade = 100;
+let fome = 100;
+
+let diminuirFelicidade = true;
+
+
+
+function atualizar(){
+
+gui.innerHTML = `
+
+<h2>🐶 Byte</h2>
+
+❤️ Felicidade: ${felicidade}%
+
+<br>
+
+🍖 Fome: ${fome}%
+
+<br><br>
+
+
+<button onclick="alimentar()">
+🍎 Alimentar
+</button>
+
+
+<button onclick="brincar()">
+🎾 Brincar
+</button>
+
+
+<button onclick="abrirCamera()">
+📷 Câmera
+</button>
+
+`;
+
+}
+
+
+
+
+function abrirCaixa(){
+
+toques++;
+
+
+if(toques == 1){
+
+mensagem.innerHTML =
+"A caixa está tremendo... 📦";
+
+}
+
+
+if(toques == 2){
+
+mensagem.innerHTML =
+"Algo está tentando sair... 😨";
+
+}
+
+
+if(toques == 3){
+
+caixa.style.display="none";
+
+ovo.style.display="block";
+
+mensagem.innerHTML =
+"Um ovo apareceu! 🥚";
+
+}
+
+}
+
+
+
+
+function abrirOvo(){
+
+ovo.style.display="none";
+
+cachorro.style.display="block";
+
+
+mensagem.innerHTML =
+"Um novo amigo nasceu! 🐶";
+
+
+
+setTimeout(()=>{
+
+gui.style.display="block";
+
+atualizar();
+
+},2000);
+
+
+}
+
+
+
+
+
+function alimentar(){
+
+fome += 10;
+
+
+if(fome > 100){
+
+fome = 100;
+
+}
+
+
+mensagem.innerHTML =
+"Byte comeu 🍎";
+
+
+atualizar();
+
+}
+
+
+
+
+
+function brincar(){
+
+felicidade += 10;
+
+
+if(felicidade > 100){
+
+felicidade = 100;
+
+}
+
+
+mensagem.innerHTML =
+"Byte está brincando 🎾";
+
+
+atualizar();
+
+}
+
+
+
+
+
+
+// A cada minuto perde uma coisa alternando
+
+setInterval(()=>{
+
+
+if(diminuirFelicidade){
+
+felicidade -= 5;
+
+
+}else{
+
+
+fome -= 5;
+
+
+}
+
+
+
+if(felicidade < 0){
+
+felicidade = 0;
+
+}
+
+
+if(fome < 0){
+
+fome = 0;
+
+}
+
+
+
+diminuirFelicidade = !diminuirFelicidade;
+
+
+atualizar();
+
+
+
+},60000);
+
+
+
+
+
+
+
+async function abrirCamera(){
+
+
+selfies++;
+
+
+
+try{
+
+
+let stream =
+await navigator.mediaDevices.getUserMedia({
+
+video:true
+
+});
+
+
+
+let video =
+document.getElementById("camera");
+
+
+video.srcObject = stream;
+
+
+document.getElementById("cameraArea").style.display="block";
+
+
+
+
+setTimeout(()=>{
+
+
+flash.style.display="block";
+
+
+setTimeout(()=>{
+
+
+flash.style.display="none";
+
+
+},300);
+
+
+
+},1000);
+
+
+
+
+
+setTimeout(()=>{
+
+
+cameraArea.style.display="none";
+
+
+stream.getTracks()[0].stop();
+
+
+mensagem.innerHTML =
+"Foto tirada! 📸";
+
+
+},2000);
+
+
+
+
+
+
+// Terror depois da segunda foto
+
+
+if(selfies >= 2){
+
+
+
+setTimeout(()=>{
+
+
+document.body.style.background="black";
+
+
+cameraArea.style.display="block";
+
+
+mensagem.innerHTML =
+"👁️ Eu sei onde você está...";
+
+
+
+},4000);
+
+
+
+
+
+
+setTimeout(()=>{
+
+
+cameraArea.style.display="none";
+
+
+document.body.style.background =
+"linear-gradient(#8de0ff,#ffffff)";
+
+
+mensagem.innerHTML =
+"😂 Brincadeira! Eu não sei nada.";
+
+
+},8000);
+
+
+
+}
+
+
+
+}catch{
+
+
+mensagem.innerHTML =
+"Câmera bloqueada.";
+
+}
+
+
+}
+
+
 
 </script>
 
